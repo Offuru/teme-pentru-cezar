@@ -63,6 +63,20 @@ class GraphView:
 
         tk.Button(
             self.toolbar,
+            text="Ahuja-Orlin SP",
+            command=self._on_ahuja_orlin_shortest_path,
+            **btn_style,
+        ).pack(side=tk.LEFT, padx=4)
+
+        tk.Button(
+            self.toolbar,
+            text="Ahuja-Orlin LN",
+            command=self._on_ahuja_orlin_layered,
+            **btn_style,
+        ).pack(side=tk.LEFT, padx=4)
+
+        tk.Button(
+            self.toolbar,
             text="Gabow",
             command=self._on_gabow,
             **btn_style,
@@ -219,6 +233,38 @@ class GraphView:
 
         self._clear_selection()
         self.controller.run_ahuja_orlin(source, sink, delay_ms=1500)
+
+    def _on_ahuja_orlin_shortest_path(self):
+        """Handle Ahuja-Orlin shortest-path button click."""
+        if not self.controller.node_positions:
+            print("No nodes in the graph")
+            return
+
+        source = min(self.controller.node_positions.keys())
+        sink = max(self.controller.node_positions.keys())
+
+        if source == sink:
+            print("Need at least 2 nodes for Ahuja-Orlin shortest path")
+            return
+
+        self._clear_selection()
+        self.controller.run_ahuja_orlin_shortest_path(source, sink, delay_ms=1500)
+
+    def _on_ahuja_orlin_layered(self):
+        """Handle Ahuja-Orlin layered networks button click."""
+        if not self.controller.node_positions:
+            print("No nodes in the graph")
+            return
+
+        source = min(self.controller.node_positions.keys())
+        sink = max(self.controller.node_positions.keys())
+
+        if source == sink:
+            print("Need at least 2 nodes for Ahuja-Orlin layered networks")
+            return
+
+        self._clear_selection()
+        self.controller.run_ahuja_orlin_layered(source, sink, delay_ms=1500)
 
     def _on_gabow(self):
         """Handle Gabow button click."""

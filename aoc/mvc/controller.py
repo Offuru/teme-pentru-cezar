@@ -5,6 +5,8 @@ import time
 
 from mvc.algorithms import (
     AhujaOrlinMixin,
+    AhujaOrlinShortestPathMixin,
+    AhujaOrlinLayeredMixin,
     EdmondsKarpMixin,
     FordFulkersonMixin,
     GabowMixin,
@@ -19,6 +21,8 @@ class Controller(
     FordFulkersonMixin,
     EdmondsKarpMixin,
     AhujaOrlinMixin,
+    AhujaOrlinShortestPathMixin,
+    AhujaOrlinLayeredMixin,
     GabowMixin,
     GenericMaxFlowMixin,
 ):

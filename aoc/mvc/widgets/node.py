@@ -44,8 +44,8 @@ class NodeWidget:
             x,
             y,
             text=str(self.node_id),
-            font=("Arial", 12, "bold"),
-            fill="white",
+            font=("Arial", 10, "bold"),
+            fill="#1A1A1A",
             tags=f"node_{self.node_id}",
         )
 
