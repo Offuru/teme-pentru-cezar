@@ -21,6 +21,7 @@ class NodeWidget:
         self.current_color = default_color
 
         self.circle_id = self._draw_circle()
+        self.text_outline_ids = []  # outline strokes for text
         self.text_id = self._draw_text()
 
     def _draw_circle(self) -> int:
@@ -38,14 +39,34 @@ class NodeWidget:
         )
 
     def _draw_text(self) -> int:
-        """Draw the node label."""
+        """Draw the node label with text outline/border."""
         x, y = self.position
+        text = str(self.node_id)
+        
+        # Clear old outline IDs
+        for outline_id in self.text_outline_ids:
+            self.canvas.delete(outline_id)
+        self.text_outline_ids = []
+        
+        # Create text outline by drawing offset text in black
+        for offset_x, offset_y in [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]:
+            outline_id = self.canvas.create_text(
+                x + offset_x,
+                y + offset_y,
+                text=text,
+                font=("Arial", 10, "bold"),
+                fill="#2C3E50",  # Dark outline color
+                tags=f"node_{self.node_id}",
+            )
+            self.text_outline_ids.append(outline_id)
+        
+        # Draw main text on top
         return self.canvas.create_text(
             x,
             y,
-            text=str(self.node_id),
+            text=text,
             font=("Arial", 10, "bold"),
-            fill="#1A1A1A",
+            fill="#FFFFFF",  # White text
             tags=f"node_{self.node_id}",
         )
 
@@ -62,6 +83,12 @@ class NodeWidget:
             y + self.radius,
         )
 
+        # Update outline text positions
+        offsets = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+        for i, (offset_x, offset_y) in enumerate(offsets):
+            if i < len(self.text_outline_ids):
+                self.canvas.coords(self.text_outline_ids[i], x + offset_x, y + offset_y)
+
         self.canvas.coords(self.text_id, x, y)
 
     def set_color(self, color: str):
@@ -72,6 +99,9 @@ class NodeWidget:
     def set_label(self, label: str):
         """Change the node's label text."""
         self.canvas.itemconfig(self.text_id, text=label)
+        # Update all outline text as well
+        for outline_id in self.text_outline_ids:
+            self.canvas.itemconfig(outline_id, text=label)
 
     def contains_point(self, x: int, y: int) -> bool:
         """Check if a point is inside this node."""
@@ -81,4 +111,6 @@ class NodeWidget:
     def delete(self):
         """Remove the node from canvas."""
         self.canvas.delete(self.circle_id)
+        for outline_id in self.text_outline_ids:
+            self.canvas.delete(outline_id)
         self.canvas.delete(self.text_id)

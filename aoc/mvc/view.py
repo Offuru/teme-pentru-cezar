@@ -77,6 +77,20 @@ class GraphView:
 
         tk.Button(
             self.toolbar,
+            text="Preflux",
+            command=self._on_preflux,
+            **btn_style,
+        ).pack(side=tk.LEFT, padx=4)
+
+        tk.Button(
+            self.toolbar,
+            text="Preflux Q",
+            command=self._on_preflux_queue,
+            **btn_style,
+        ).pack(side=tk.LEFT, padx=4)
+
+        tk.Button(
+            self.toolbar,
             text="Gabow",
             command=self._on_gabow,
             **btn_style,
@@ -281,6 +295,38 @@ class GraphView:
 
         self._clear_selection()
         self.controller.run_gabow(source, sink, delay_ms=1500)
+
+    def _on_preflux(self):
+        """Handle Preflux button click."""
+        if not self.controller.node_positions:
+            print("No nodes in the graph")
+            return
+
+        source = min(self.controller.node_positions.keys())
+        sink = max(self.controller.node_positions.keys())
+
+        if source == sink:
+            print("Need at least 2 nodes for Preflux")
+            return
+
+        self._clear_selection()
+        self.controller.run_preflux(source, sink, delay_ms=1500)
+
+    def _on_preflux_queue(self):
+        """Handle Preflux Queue button click."""
+        if not self.controller.node_positions:
+            print("No nodes in the graph")
+            return
+
+        source = min(self.controller.node_positions.keys())
+        sink = max(self.controller.node_positions.keys())
+
+        if source == sink:
+            print("Need at least 2 nodes for Preflux Queue")
+            return
+
+        self._clear_selection()
+        self.controller.run_preflux_queue(source, sink, delay_ms=1500)
 
     def _on_reset_key(self, event):
         """Handle 'r' key - reset all flows to zero and refresh."""

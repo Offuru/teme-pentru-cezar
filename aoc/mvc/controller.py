@@ -11,6 +11,8 @@ from mvc.algorithms import (
     FordFulkersonMixin,
     GabowMixin,
     GenericMaxFlowMixin,
+    PrefluxMixin,
+    PrefluxQueueMixin,
 )
 from mvc.model import Graph
 
@@ -25,6 +27,8 @@ class Controller(
     AhujaOrlinLayeredMixin,
     GabowMixin,
     GenericMaxFlowMixin,
+    PrefluxMixin,
+    PrefluxQueueMixin,
 ):
     def __init__(self, graph: Graph, node_radius: int = 20):
         self.graph = graph
