@@ -12,6 +12,7 @@ from mvc.algorithms import (
     GabowMixin,
     GenericMaxFlowMixin,
     PrefluxMixin,
+    PrefluxPriorityQueueMixin,
     PrefluxQueueMixin,
 )
 from mvc.model import Graph
@@ -28,6 +29,7 @@ class Controller(
     GabowMixin,
     GenericMaxFlowMixin,
     PrefluxMixin,
+    PrefluxPriorityQueueMixin,
     PrefluxQueueMixin,
 ):
     def __init__(self, graph: Graph, node_radius: int = 20):
