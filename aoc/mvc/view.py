@@ -98,6 +98,13 @@ class GraphView:
 
         tk.Button(
             self.toolbar,
+            text="Flow Scaling",
+            command=self._on_flow_scaling,
+            **btn_style,
+        ).pack(side=tk.LEFT, padx=4)
+
+        tk.Button(
+            self.toolbar,
             text="Gabow",
             command=self._on_gabow,
             **btn_style,
@@ -350,6 +357,22 @@ class GraphView:
 
         self._clear_selection()
         self.controller.run_preflux_priority_queue(source, sink, delay_ms=1500)
+
+    def _on_flow_scaling(self):
+        """Handle Flow Scaling button click."""
+        if not self.controller.node_positions:
+            print("No nodes in the graph")
+            return
+
+        source = min(self.controller.node_positions.keys())
+        sink = max(self.controller.node_positions.keys())
+
+        if source == sink:
+            print("Need at least 2 nodes for Flow Scaling")
+            return
+
+        self._clear_selection()
+        self.controller.run_flow_scaling(source, sink, delay_ms=1500)
 
     def _on_reset_key(self, event):
         """Handle 'r' key - reset all flows to zero and refresh."""

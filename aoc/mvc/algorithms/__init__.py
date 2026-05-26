@@ -9,6 +9,7 @@ from mvc.algorithms.gabow import GabowMixin
 from mvc.algorithms.preflux import PrefluxMixin
 from mvc.algorithms.preflux_queue import PrefluxQueueMixin
 from mvc.algorithms.preflux_priority_queue import PrefluxPriorityQueueMixin
+from mvc.algorithms.flow_scaling import FlowScalingMixin
 
 __all__ = [
     "ResidualGraphMixin",
@@ -22,4 +23,5 @@ __all__ = [
     "PrefluxMixin",
     "PrefluxQueueMixin",
     "PrefluxPriorityQueueMixin",
+    "FlowScalingMixin",
 ]
